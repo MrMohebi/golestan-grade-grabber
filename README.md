@@ -1,2 +1,2 @@
 # golestan-grade-graber
-get grades in Golestan and send them by telegram bot
+inspired by [golestan-grade-checker](https://github.com/alitoufighi/golestan-grade-checker)
