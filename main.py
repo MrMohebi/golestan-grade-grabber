@@ -45,13 +45,17 @@ def login():
     frame_switch_id("Faci1")
     frame_switch_name("Master")
     frame_switch_name("Form_Body")
-    print(driver.page_source)
 
     # login
     usernameFiled = driver.find_element(By.ID, "F80351")
     usernameFiled.send_keys(USERNAME)
     passwordFiled = driver.find_element(By.ID, "F80401")
     passwordFiled.send_keys(PASSWORD)
+
+    driver.switch_to.default_content()
+
+    while len(driver.find_elements(By.ID, "Faci2")) < 1 :
+        sleep(2)
 
     print("Logged in :)")
     return True
