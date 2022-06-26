@@ -4,7 +4,9 @@ import pymongo
 
 
 class ConfigGGG:
-    db = None
+    DB = None
+    LoginURL = None
+    TelToken = None
 
     def __init__(self):
         load_dotenv()
@@ -17,7 +19,16 @@ class ConfigGGG:
                 os.getenv("MONGO_DB"),
             )
         )
-        self.db = dbclient[os.getenv("MONGO_DB")]
+        self.DB = dbclient[os.getenv("MONGO_DB")]
+
+        self.TelToken = os.getenv("TEL_BOT_TOKEN")
+        self.LoginURL = os.getenv("LOGIN_URL")
 
     def getDB(self):
-        return self.db
+        return self.DB
+
+    def getTelBotToken(self):
+        return self.TelToken
+
+    def getLoginURL(self):
+        return self.LoginURL
