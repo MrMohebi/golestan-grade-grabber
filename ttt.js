@@ -41,6 +41,8 @@ function enterCaptcha() {
                                     ?.contentDocument?.getElementsByName?.("Form_Body")?.[0]
                                     ?.contentDocument?.getElementById?.("F51701")
                                 box.value = res.captcha || ""
+                                // click login btn
+                                document.getElementById("Faci1")?.contentDocument?.getElementsByName?.("Master")?.[0]?.contentDocument?.getElementsByName?.("Form_Body")?.[0]?.contentDocument?.getElementById?.("btnLog").click()
                             })
                             .catch(err => console.error(err))
                     })
@@ -58,7 +60,7 @@ function enterCaptcha() {
                 })
                 observer.observe(captchaImg, {attributes: true})
             }
-        }, 100)
+        }, 1000)
         setTimeout(function () {
             clearInterval(elementExistsInterval)
         }, 30000)
