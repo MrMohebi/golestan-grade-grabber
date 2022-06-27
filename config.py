@@ -32,3 +32,6 @@ class ConfigGGG:
 
     def getLoginURL(self):
         return self.LoginURL
+
+    def getGroups(self):
+        return list(self.DB['groups'].find({}))
