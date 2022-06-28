@@ -1,5 +1,6 @@
 import telebot
 import re
+import threading
 
 
 class TelegramBotGGG:
@@ -9,6 +10,8 @@ class TelegramBotGGG:
     def __init__(self, token, db):
         self.TelBot = telebot.TeleBot(token, parse_mode=None)
         self.DB = db
+
+        threading.Thread(target=self.TelBot.infinity_polling, daemon=True).start()
 
     def getTelBot(self):
         return self.TelBot

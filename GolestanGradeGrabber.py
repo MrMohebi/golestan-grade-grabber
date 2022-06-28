@@ -1,5 +1,6 @@
 from config import ConfigGGG
 from golestan import Golestan
+from telegramBot import TelegramBotGGG
 
 
 class GolestanGradeGrabber:
@@ -9,6 +10,8 @@ class GolestanGradeGrabber:
     def __init__(self):
         self.Configs = ConfigGGG()
         self.DB = self.Configs.getDB()
+        telBot = TelegramBotGGG(self.Configs.getTelBotToken(), self.DB)
+        telBot.lessenAll()
 
     def compereScores(self, previousScores, newScores, username):
         freshScores = []
