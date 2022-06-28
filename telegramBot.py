@@ -22,9 +22,9 @@ class TelegramBotGGG:
                     self.addUserToGroup(message.chat.id, userPass[0], userPass[1])
 
             if "delUser" in message.text:
-                userPass = list(filter(None, re.split(r"\n+|delUser", message.text)))
-                if userPass[0][:2] == "98":
-                    self.removeUserFromGroup(message.chat.id, userPass[0])
+                username = list(filter(None, re.split(r"\n+|delUser", message.text)))
+                if username[0][:2] == "98":
+                    self.removeUserFromGroup(message.chat.id, username[0])
 
     def addUserToGroup(self, groupId, username, password):
         isUserExist = self.DB["groups"].count_documents({"users": {"$elemMatch": {"username": username}}, "chatId": groupId}) != 0

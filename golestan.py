@@ -4,7 +4,7 @@ from selenium.webdriver.chrome.options import Options
 from time import sleep
 
 
-class GolestanGradeGrabber:
+class Golestan:
     driver = None
     BaseURL = None
     USERNAME = None
