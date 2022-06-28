@@ -1,0 +1,38 @@
+# ports: HOST:CONTAINER
+version: '3.8'
+services:
+    python:
+        build: .
+        container_name: ${APP_NAME}-python
+        restart: unless-stopped
+        volumes:
+            - ./app/:/app/
+        networks:
+            - nproxy
+            - internal
+
+    mongo:
+        image: mongo
+        container_name: ${APP_NAME}-mongo
+        restart: always
+        ports:
+            - ${MONGO_EXPOSE_PORT}:27017
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+            - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
+            - VIRTUAL_HOST=${DB_URL}
+            - VIRTUAL_PORT=27017
+        volumes:
+            - ./mongo/data:/data/db
+        networks:
+            - internal
+            - nproxy
+
+
+networks:
+    nproxy:
+        external:
+          name: nginx-proxy-net
+    internal:
+        name: lemp-network-${APP_NAME}
+        driver: bridge
