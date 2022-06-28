@@ -51,3 +51,13 @@ class TelegramBotGGG:
             }
         })
         self.TelBot.send_message(groupId, "deleted! User " + username + " :)")
+
+    def sendNewScores(self, chatId, scoresArr):
+        test = "نمرات جدید: " + scoresArr[0]["username"] + "\n\n"
+        for eScore in scoresArr:
+            if float(eScore['score']) > 0:
+                test += eScore['name'] + ": " + eScore['score'] + "\n"
+                if float(eScore['score']) < 10:
+                    test += "خب اینو افتادی به سلامتی!" + "\n"
+
+        self.TelBot.send_message(chatId, test)

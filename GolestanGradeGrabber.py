@@ -6,12 +6,13 @@ from telegramBot import TelegramBotGGG
 class GolestanGradeGrabber:
     DB = None
     Configs = None
+    TelBot = None
 
     def __init__(self):
         self.Configs = ConfigGGG()
         self.DB = self.Configs.getDB()
-        telBot = TelegramBotGGG(self.Configs.getTelBotToken(), self.DB)
-        telBot.lessenAll()
+        self.TelBot = TelegramBotGGG(self.Configs.getTelBotToken(), self.DB)
+        self.TelBot.lessenAll()
 
     def compereScores(self, previousScores, newScores, username):
         freshScores = []
@@ -45,6 +46,6 @@ class GolestanGradeGrabber:
                     scores = ggg.getUserScores()
                     previousUserLessens = list(self.Configs.getDB()["lessens"].find({"username": eUser['username']}))
                     diffs = self.compereScores(previousUserLessens, scores, eUser['username'])
-                    print(diffs)
+                    self.TelBot.sendNewScores(eGroup["chatId"], diffs)
                 except:
                     pass
