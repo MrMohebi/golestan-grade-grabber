@@ -7,6 +7,7 @@ class ConfigGGG:
     DB = None
     LoginURL = None
     TelToken = None
+    IranProxy = None
 
     def __init__(self):
         load_dotenv()
@@ -23,6 +24,7 @@ class ConfigGGG:
 
         self.TelToken = os.getenv("TEL_BOT_TOKEN")
         self.LoginURL = os.getenv("LOGIN_URL")
+        self.IranProxy = os.getenv("IRAN_HTTP_PROXY")
 
     def getDB(self):
         return self.DB
@@ -35,3 +37,6 @@ class ConfigGGG:
 
     def getGroups(self):
         return list(self.DB['groups'].find({}))
+
+    def getIranProxy(self):
+        return self.IranProxy

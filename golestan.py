@@ -11,13 +11,16 @@ class Golestan:
     PASSWORD = None
     HasCaptcha = True
 
-    def __init__(self, loginURL, username, password, hasCaptcha=True):
+    def __init__(self, loginURL, username, password, hasCaptcha=True, iranProxy=None):
         self.BaseURL = loginURL
         self.USERNAME = username
         self.PASSWORD = password
         self.HasCaptcha = hasCaptcha
         chrome_options = Options()
-        chrome_options.headless = True
+        # chrome_options.headless = True
+        if iranProxy is not None:
+            chrome_options.add_argument('--proxy-server=%s' % iranProxy)
+
         self.driver = webdriver.Chrome(options=chrome_options)
 
     def frame_switch_id(self, frameId):

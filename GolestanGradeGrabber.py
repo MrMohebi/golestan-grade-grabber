@@ -38,7 +38,7 @@ class GolestanGradeGrabber:
             users = eGroup['users']
             for eUser in users:
                 try:
-                    ggg = Golestan(self.Configs.getLoginURL(), eUser['username'], eUser['password'], True)
+                    ggg = Golestan(self.Configs.getLoginURL(), eUser['username'], eUser['password'], True, self.Configs.getIranProxy())
                     scores = ggg.getUserScores()
                     previousUserLessens = list(self.Configs.getDB()["lessens"].find({"username": eUser['username']}))
                     diffs = self.compereScores(previousUserLessens, scores, eUser['username'])
