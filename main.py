@@ -5,5 +5,5 @@ from GolestanGradeGrabber import GolestanGradeGrabber
 if __name__ == '__main__':
     ggg = GolestanGradeGrabber()
 
-    inter = SetInterval(20, ggg.checkScores)
+    inter = SetInterval(3600, ggg.checkScores)
 
