@@ -30,6 +30,7 @@ class Golestan:
         self.driver.switch_to.frame(self.driver.find_element(By.NAME, name))
 
     def getUserScores(self):
+        print("opening site for: "+self.USERNAME)
         self.driver.get(self.BaseURL)
         sleep(5)
         self.login(self.USERNAME, self.PASSWORD)
