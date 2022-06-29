@@ -30,7 +30,8 @@ class TelegramBotGGG:
                     self.removeUserFromGroup(message.chat.id, username[0])
 
     def addUserToGroup(self, groupId, username, password):
-        isUserExist = self.DB["groups"].count_documents({"users": {"$elemMatch": {"username": username}}, "chatId": groupId}) != 0
+        isUserExist = self.DB["groups"].count_documents(
+            {"users": {"$elemMatch": {"username": username}}, "chatId": groupId}) != 0
 
         if isUserExist:
             self.TelBot.send_message(groupId, "exist! User " + username + " :)")
@@ -55,9 +56,14 @@ class TelegramBotGGG:
     def sendNewScores(self, chatId, scoresArr):
         test = "نمرات جدید: " + scoresArr[0]["username"] + "\n\n"
         for eScore in scoresArr:
-            if float(eScore['score']) > 0:
-                test += eScore['name'] + ": " + eScore['score'] + "\n"
-                if float(eScore['score']) < 10:
+            try:
+                score = float(eScore['score'])
+            except:
+                score = -1
+
+            if score > 0:
+                test += eScore['name'] + ": " + str(score) + "\n"
+                if score < 10:
                     test += "خب اینو افتادی به سلامتی!" + "\n"
 
         self.TelBot.send_message(chatId, test)

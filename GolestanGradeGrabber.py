@@ -46,6 +46,7 @@ class GolestanGradeGrabber:
                     scores = ggg.getUserScores()
                     previousUserLessens = list(self.Configs.getDB()["lessens"].find({"username": eUser['username']}))
                     diffs = self.compereScores(previousUserLessens, scores, eUser['username'])
-                    self.TelBot.sendNewScores(eGroup["chatId"], diffs)
+                    if len(diffs) > 0:
+                        self.TelBot.sendNewScores(eGroup["chatId"], diffs)
                 except:
                     pass
