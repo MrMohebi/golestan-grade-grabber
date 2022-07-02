@@ -42,4 +42,5 @@ customise docker files for yourself, Its base on my conditions and servers :) (h
 > ```mongodb
 > db.createCollection("groups")
 > db.createCollection("lessens")
+> db.createCollection("users")
 >```

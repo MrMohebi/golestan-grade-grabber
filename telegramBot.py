@@ -19,6 +19,15 @@ class TelegramBotGGG:
     def lessenAll(self):
         @self.TelBot.message_handler(commands=['start'])
         def send_welcome(message):
+            self.DB["users"].update_one({"userId": message.from_user.id}, {
+                "$set": {
+                    "firstName": message.from_user.first_name,
+                    "lastName": message.from_user.last_name,
+                    "username": message.from_user.username,
+                    "createdAt": message.date
+                }
+            }, upsert=True)
+
             text = "سلام چه طورین؟" + "\n" + \
                    "این ربات نمره های جدیدی که توی سایت گلستان براتون ثبت میشه رو ارسال میکنه که قراره نباشه روزی ده بار سایت رو چک کنین :)" + "\n" + \
                    "میتونین همینجا توی پیوی ببینین یا به گروه اضافش کنین که برای همتون اونجا ارسال کنه" + "\n" + \
