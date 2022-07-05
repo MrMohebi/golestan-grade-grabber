@@ -44,7 +44,7 @@ class Golestan:
     def getUserScores(self):
         print("opening site for: " + self.USERNAME)
         self.driver.get(self.BaseURL)
-        sleep(20)
+        sleep(10)
         if self.login(self.USERNAME, self.PASSWORD):
             self.main2TermPage(-1)
             scores = self.getScoresDic()

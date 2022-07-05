@@ -43,10 +43,15 @@ class GolestanGradeGrabber:
             for eUser in users:
                 try:
                     ggg = Golestan(self.Configs.getLoginURL(), eUser['username'], eUser['password'], True, self.Configs.getIranProxy())
-                    scores = ggg.getUserScores()
+                    data = ggg.getUserScores()
+                    if ggg.CODES["wrong_pass"] == data["code"]:
+                        self.TelBot.wrongUserPassword(eGroup["chatId"], eUser['username'])
+                        continue
                     previousUserLessens = list(self.Configs.getDB()["lessens"].find({"username": eUser['username']}))
-                    diffs = self.compereScores(previousUserLessens, scores, eUser['username'])
+                    diffs = self.compereScores(previousUserLessens, data['data'], eUser['username'])
                     if len(diffs) > 0:
                         self.TelBot.sendNewScores(eGroup["chatId"], diffs)
-                except:
+                except Exception as e:
+                    print("HAS EXCEPTION")
+                    print(e)
                     pass

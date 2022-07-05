@@ -40,11 +40,11 @@ class TelegramBotGGG:
             self.TelBot.send_message(message.chat.id, "برا ثبت کاربر جدید این متن رو ارسال کنین👇")
             self.TelBot.send_message(message.chat.id, "addUser" + "\n" + "<USERNAME>" + "\n" + "<PASSWORD>")
             self.TelBot.send_message(message.chat.id, "مثال:")
-            self.TelBot.send_message(message.chat.id, "addUser" + "\n" + "98408963" + "\n" + "123456789")
+            self.TelBot.send_message(message.chat.id, "addUser" + "\n" + "98409999" + "\n" + "123456789")
             self.TelBot.send_message(message.chat.id, "برای حذف کاربر هم این متن👇")
             self.TelBot.send_message(message.chat.id, "delUser" + "\n" + "<USERNAME>")
             self.TelBot.send_message(message.chat.id, "مثال:")
-            self.TelBot.send_message(message.chat.id, "delUser" + "\n" + "98408963")
+            self.TelBot.send_message(message.chat.id, "delUser" + "\n" + "98409999")
             self.TelBot.send_message(message.chat.id, "یوزر رو تغییر نمیتونین بدین(حوصلم نشد بزنمش)" + "\n" + " برای اینکه اطلاعات یوزر رو تغییر بدین. یه دور پاکش کنین از اول اضافش کنین :)")
 
 
@@ -52,12 +52,12 @@ class TelegramBotGGG:
         def all_msgs(message):
             if "addUser" in message.text:
                 userPass = list(filter(None, re.split(r"\n+|addUser", message.text)))
-                if userPass[0].isnumeric():
+                if userPass[0].isnumeric() and userPass[0] != "98409999":
                     self.addUserToGroup(message.chat.id, userPass[0], userPass[1])
 
             if "delUser" in message.text:
                 username = list(filter(None, re.split(r"\n+|delUser", message.text)))
-                if username[0].isnumeric():
+                if username[0].isnumeric() and username[0] != "98409999":
                     self.removeUserFromGroup(message.chat.id, username[0])
 
     def addUserToGroup(self, groupId, username, password):
@@ -98,3 +98,11 @@ class TelegramBotGGG:
                     test += "خب اینو افتادی به سلامتی!" + "\n"
 
         self.TelBot.send_message(chatId, test)
+
+    def wrongUserPassword(self, groupId, username):
+        self.DB["groups"].update_one({"chatId": groupId}, {
+            "$pull": {
+                "users": {"username": username}
+            }
+        })
+        self.TelBot.send_message(groupId, "رمز برای این نام کاربری اشتباست به خاطر همین حذفش کردم" + username)
