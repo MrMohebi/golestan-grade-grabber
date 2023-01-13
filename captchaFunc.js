@@ -29,7 +29,7 @@ function enterCaptcha() {
                         const form = new FormData()
                         form.set("img", dataUrl.replace("data:image/gif;base64,", ""))
 
-                        fetch("https://captcha.mdhi.dev/edu", {
+                        fetch("captcha-solver:8000/edu", {
                             method: "POST",
                             body: form,
                         })
