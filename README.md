@@ -12,6 +12,10 @@ First create a ```.env``` file from ```.evn.example```. Then put your mongo data
 
 [```IRAN_HTTP_PROXY```](https://github.com/MrMohebi/golestan-grade-grabber/blob/master/.env.example#L20) is needed because Golestan System is ONLY available by iran IPs and also Telegram is baned in Iran; so you have to run this project in other countries servers and proxied it throws Iran (God bless them :D).
 
+#### UPDATE: 
+Again censorship in Iran blocked all HTTP and Socks proxies, so we have to use ssh tunneling proxy.
+You can set ssh proxy in here [```IRAN_SSH_TUNNELING_URL```](https://github.com/MrMohebi/golestan-grade-grabber/blob/master/.env.example#L21)
+
 To change time for interval checking
 change [this number](https://github.com/MrMohebi/golestan-grade-grabber/blob/master/main.py#L9) in your favorite in seconds.
 ### Telegram Bot Commands
