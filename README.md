@@ -10,7 +10,7 @@ It's now up and running in [@GolestanGradeGrabberbot](https://t.me/GolestanGrade
 ## usage:
 First create a ```.env``` file from ```.evn.example```. Then put your mongo database info and Telegram Token.
 
-[```IRAN_HTTP_PROXY```](https://github.com/MrMohebi/golestan-grade-grabber/blob/master/.env.example#L9) is needed because Golestan System is ONLY available by iran IPs and also Telegram is baned in Iran; so you have to run this project in other countries servers and proxied it throws Iran (God bless them :D).
+[```IRAN_HTTP_PROXY```](https://github.com/MrMohebi/golestan-grade-grabber/blob/master/.env.example#L20) is needed because Golestan System is ONLY available by iran IPs and also Telegram is baned in Iran; so you have to run this project in other countries servers and proxied it throws Iran (God bless them :D).
 
 To change time for interval checking
 change [this number](https://github.com/MrMohebi/golestan-grade-grabber/blob/master/main.py#L9) in your favorite in seconds.
