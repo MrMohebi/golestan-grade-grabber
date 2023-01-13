@@ -31,7 +31,7 @@ class ConfigGGG:
         if sshPFUrl is not None and len(sshPFUrl) > 0:
             sshPFUsername = os.getenv("IRAN_SSH_TUNNELING_USERNAME")
             sshPFPassword = os.getenv("IRAN_SSH_TUNNELING_PASSWORD")
-            sshPFPort = os.getenv("IRAN_SSH_TUNNELING_PORT")
+            sshPFPort = int(os.getenv("IRAN_SSH_TUNNELING_PORT"))
             controlssh = SSHProxyController(sshPFUrl, sshPFUsername, sshPFPassword, 1080, sshPFPort)
             controlssh.start()
             self.IranProxy = "socks5://127.0.0.1:1080"
