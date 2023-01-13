@@ -13,8 +13,6 @@ services:
         build: ./
         container_name: ${APP_NAME}-python
         restart: unless-stopped
-        volumes:
-            - ./app/:/app/
         networks:
             - nproxy
             - internal
