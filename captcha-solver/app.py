@@ -146,7 +146,9 @@ def edu():
         r = request
         base64data = r.forms.get('img')
         img = Image.open(BytesIO(base64.b64decode(base64data))).resize((140, 50))
-        return {"captcha": main(img), "status": "OK"}
+        result = {"captcha": main(img), "status": "OK"}
+        print(result)
+        return result
     except Exception as e:
         return {"status": "ERROR", "message": str(e)}
 

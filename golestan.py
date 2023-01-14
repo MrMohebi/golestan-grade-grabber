@@ -72,22 +72,23 @@ class Golestan:
 
         self.driver.switch_to.default_content()
 
-        maxTries = 20
+        # maxTries = 20
         while len(self.driver.find_elements(By.ID, "Faci2")) < 1:
 
             self.frame_switch_id("Faci1")
             self.frame_switch_name("Message")
+            print(self.driver.page_source.encode("utf-8"))
             if self.driver.find_element(By.ID, "errtxt").get_attribute(
                     "title") == "کد1 : شناسه کاربري يا گذرواژه اشتباه است.":
                 print("Wrong password for " + username)
                 return False
 
-            sleep(2)
+            sleep(7)
             print("try to login...")
-            if maxTries < 0:
-                print("couldn't login, maybe its because of password " + username)
-                return False
-            maxTries -= 1
+            # if maxTries < 0:
+            #     print("couldn't login, maybe its because of password " + username)
+            #     # return False
+            # maxTries -= 1
             self.driver.switch_to.default_content()
 
         # check page is loaded
