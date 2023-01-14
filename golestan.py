@@ -77,7 +77,7 @@ class Golestan:
 
             self.frame_switch_id("Faci1")
             self.frame_switch_name("Message")
-            print(self.driver.page_source.encode("utf-8"))
+
             if self.driver.find_element(By.ID, "errtxt").get_attribute(
                     "title") == "کد1 : شناسه کاربري يا گذرواژه اشتباه است.":
                 print("Wrong password for " + username)
