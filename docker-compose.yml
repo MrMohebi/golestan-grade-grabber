@@ -4,13 +4,16 @@ services:
     captcha-solver:
         build:
             context: ./captcha-solver
+            network: host
         container_name: ${APP_NAME}-captcha-solver
         restart: "unless-stopped"
         networks:
             - internal
 
     python:
-        build: ./
+        build:
+            context: ./
+            network: host
         container_name: ${APP_NAME}-python
         restart: unless-stopped
         networks:
