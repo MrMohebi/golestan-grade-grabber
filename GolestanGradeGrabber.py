@@ -46,11 +46,12 @@ class GolestanGradeGrabber:
                     data = ggg.getUserScores()
                     if ggg.CODES["wrong_pass"] == data["code"]:
                         self.TelBot.wrongUserPassword(eGroup["chatId"], eUser['username'])
-                        continue
-                    previousUserLessens = list(self.Configs.getDB()["lessens"].find({"username": eUser['username']}))
-                    diffs = self.compereScores(previousUserLessens, data['data'], eUser['username'])
-                    if len(diffs) > 0:
-                        self.TelBot.sendNewScores(eGroup["chatId"], diffs)
+                    elif ggg.CODES["success"] == data["code"]:
+                        previousUserLessens = list(self.Configs.getDB()["lessens"].find({"username": eUser['username']}))
+                        diffs = self.compereScores(previousUserLessens, data['data'], eUser['username'])
+                        if len(diffs) > 0:
+                            self.TelBot.sendNewScores(eGroup["chatId"], diffs)
+
                 except Exception as e:
                     print("HAS EXCEPTION")
                     print(e)

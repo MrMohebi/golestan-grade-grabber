@@ -15,7 +15,8 @@ class Golestan:
 
     CODES = {
         "wrong_pass": "WRONG_PASSWORD",
-        "success": "SUCCESS"
+        "success": "SUCCESS",
+        "try_later": "TRY_LATER"
     }
 
     def __init__(self, loginURL, username, password, hasCaptcha=True, iranProxy=None):
@@ -45,15 +46,19 @@ class Golestan:
         print("opening site for: " + self.USERNAME)
         self.driver.get(self.BaseURL)
         sleep(10)
-        if self.login(self.USERNAME, self.PASSWORD):
+        loginRes = self.login(self.USERNAME, self.PASSWORD)
+        if loginRes == self.CODES["success"]:
             self.main2TermPage(-1)
             scores = self.getScoresDic()
             self.driver.quit()
-            return {"data": scores, "code": self.CODES["success"]}
+            return {"data": scores, "code": loginRes}
 
-        return {"data": [], "code": self.CODES["wrong_pass"]}
+        elif loginRes == self.CODES["wrong_pass"]:
+            return {"data": [], "code": loginRes}
 
-    def login(self, username, password):
+        return {"data": [], "code": self.CODES["try_later"]}
+
+    def login(self, username, password) -> str:
         self.driver.switch_to.default_content()
         if self.HasCaptcha:
             # js = 'function enterCaptcha(){if(window.location.host.match(/eduold\.uk\.ac\.ir/)){var e=setInterval((function(){if(document.getElementById("Faci1")?.contentDocument?.getElementsByName?.("Master")?.[0]?.contentDocument?.getElementsByName?.("Form_Body")?.[0]?.contentDocument?.getElementById?.("imgCaptcha")){clearInterval(e);let n=document.getElementById("Faci1")?.contentDocument?.getElementsByName?.("Master")?.[0]?.contentDocument?.getElementsByName?.("Form_Body")?.[0]?.contentDocument?.getElementById?.("imgCaptcha"),c=n.src;const o=e=>fetch(e).then((e=>e.blob())).then((e=>new Promise(((t,n)=>{const c=new FileReader;c.onloadend=()=>t(c.result),c.onerror=n,c.readAsDataURL(e)}))));function t(e){o(e).then((e=>{const t=new FormData;t.set("img",e.replace("data:image/gif;base64,","")),fetch("captcha-solver:8000/edu",{method:"POST",body:t}).then((e=>e.json())).then((e=>{var t=document?.getElementById?.("Faci1")?.contentDocument?.getElementsByName?.("Master")?.[0]?.contentDocument?.getElementsByName?.("Form_Body")?.[0]?.contentDocument?.getElementById?.("F51701");t.value=e.captcha||"",document.getElementById("Faci1")?.contentDocument?.getElementsByName?.("Master")?.[0]?.contentDocument?.getElementsByName?.("Form_Body")?.[0]?.contentDocument?.getElementById?.("btnLog").click()})).catch((e=>{}))}))}t(c),observer=new MutationObserver((e=>{e.forEach((e=>{e.attributeName.includes("src")&&"https://eduold.uk.ac.ir/_images/webbusy.gif"!==n.src&&t(n.src)}))})),observer.observe(n,{attributes:!0})}}),3000);setTimeout((function(){clearInterval(e)}),3e4)}}enterCaptcha();'
@@ -72,7 +77,7 @@ class Golestan:
 
         self.driver.switch_to.default_content()
 
-        # maxTries = 20
+        maxTries = 10
         while len(self.driver.find_elements(By.ID, "Faci2")) < 1:
 
             self.frame_switch_id("Faci1")
@@ -80,17 +85,17 @@ class Golestan:
 
             print(self.driver.page_source.encode("utf-8"))
 
-            if self.driver.find_element(By.ID, "errtxt").get_attribute(
-                    "title") == "کد1 : شناسه کاربري يا گذرواژه اشتباه است.":
+            if self.driver.find_element(By.ID, "errtxt").get_attribute("title") == "کد1 : شناسه کاربري يا گذرواژه اشتباه است.":
                 print("Wrong password for " + username)
-                return False
+                return self.CODES['wrong_pass']
 
             sleep(7)
             print("try to login...")
-            # if maxTries < 0:
-            #     print("couldn't login, maybe its because of password " + username)
-            #     # return False
-            # maxTries -= 1
+            if maxTries < 0:
+                print("couldn't login,something went wrong " + username)
+                return self.CODES['try_later']
+
+            maxTries -= 1
             self.driver.switch_to.default_content()
 
         # check page is loaded
@@ -101,7 +106,7 @@ class Golestan:
         WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, '//td[@f="12310"]')))
 
         print("Logged in :)")
-        return True
+        return self.CODES['success']
 
     def main2TermPage(self, termIndex):
         self.driver.switch_to.default_content()
