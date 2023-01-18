@@ -14,25 +14,25 @@ class GolestanGradeGrabber:
         self.TelBot = TelegramBotGGG(self.Configs.getTelBotToken(), self.DB)
         self.TelBot.lessenAll()
 
-    def compereScores(self, previousScores, newScores, username):
+    def compereScores(self, previousScores, newScores, username, chatId):
         freshScores = []
         for eNewLessen in newScores:
             newFlag = True
             for ePL in previousScores:
-                if eNewLessen["name"] == ePL["name"] and eNewLessen["score"] == ePL["score"]:
+                if eNewLessen["name"] == ePL["name"] and eNewLessen["score"] == ePL["score"] and chatId == ePL["chatId"]:
                     newFlag = False
             if newFlag:
                 eNewLessen['username'] = username
                 freshScores.append(eNewLessen)
 
-        self.saveFreshScoresToDB(freshScores, username)
+        self.saveFreshScoresToDB(freshScores, username, chatId)
 
         return freshScores
 
-    def saveFreshScoresToDB(self, freshScores, username):
+    def saveFreshScoresToDB(self, freshScores, username, chatId):
         for eNewScore in freshScores:
             self.DB["lessens"].update_one(
-                {"name": eNewScore["name"], "username": username},
+                {"name": eNewScore["name"], "username": username, "chatId": chatId},
                 {"$set": eNewScore},
                 upsert=True
             )
@@ -47,8 +47,8 @@ class GolestanGradeGrabber:
                     if ggg.CODES["wrong_pass"] == data["code"]:
                         self.TelBot.wrongUserPassword(eGroup["chatId"], eUser['username'])
                     elif ggg.CODES["success"] == data["code"]:
-                        previousUserLessens = list(self.Configs.getDB()["lessens"].find({"username": eUser['username']}))
-                        diffs = self.compereScores(previousUserLessens, data['data'], eUser['username'])
+                        previousUserLessens = list(self.Configs.getDB()["lessens"].find({"username": eUser['username'], "chatId": eGroup["chatId"]}))
+                        diffs = self.compereScores(previousUserLessens, data['data'], eUser['username'], eGroup["chatId"])
                         if len(diffs) > 0:
                             self.TelBot.sendNewScores(eGroup["chatId"], diffs)
 
