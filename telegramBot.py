@@ -97,6 +97,11 @@ class TelegramBotGGG:
                 if score < 10:
                     test += "خب اینو افتادی به سلامتی!" + "\n"
 
+
+        test += "\n" + "معدل این ترمت تا اینجا: " + scoresArr[0]["termAverage"] + "\n"
+        test += "تعداد کل واحدای پاس شدت: " + scoresArr[0]["allCourseCreditPassed"] + "\n"
+        test += "معدل کلت: " + scoresArr[0]["averageAll"]
+
         self.TelBot.send_message(chatId, test)
 
     def wrongUserPassword(self, groupId, username):

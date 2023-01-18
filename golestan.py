@@ -157,9 +157,10 @@ class Golestan:
         self.frame_switch_name("Form_Body")
         self.frame_switch_id("FrameNewForm")
 
-        scoreTableRows = self.driver.find_element(By.ID, "T02").find_element(By.TAG_NAME, "tbody").find_elements(
-            By.TAG_NAME,
-            "tr")
+        scoreTableRows = self.driver.find_element(By.ID, "T02").find_element(By.TAG_NAME, "tbody").find_elements(By.TAG_NAME, "tr")
+        averageAll = self.driver.find_element(By.ID, "T01").find_element(By.TAG_NAME, "tbody").find_elements(By.TAG_NAME, "tr")[4].find_elements(By.TAG_NAME, "td")[1].text
+        allCourseCreditPassed = self.driver.find_element(By.ID, "T01").find_element(By.TAG_NAME, "tbody").find_elements(By.TAG_NAME, "tr")[4].find_elements(By.TAG_NAME, "td")[2].text
+
         # first row is empty
         scoreTableRows.pop(0)
         scores = []
@@ -168,11 +169,22 @@ class Golestan:
                 lessenInfos = lessen.find_elements(By.TAG_NAME, "td")
                 scores.append({
                     "name": lessenInfos[5].get_attribute("title"),
-                    "score": lessenInfos[8].text
+                    "score": lessenInfos[8].text,
+                    "courseCredit": lessenInfos[6].text,
+                    "averageAll": averageAll,
+                    "allCourseCreditPassed": allCourseCreditPassed,
                 })
             except:
                 pass
 
+        termAverage = 0
+        for score in scores:
+            if len(score['score']) > 0:
+                termAverage += float(score['courseCredit']) * float(score['score'])
+                termAverage /= float(score['courseCredit']) + 1
+
+        termAverage = str(round(termAverage, 2))
+        scores[0]["termAverage"] = termAverage
         print(scores)
 
         return scores
