@@ -50,6 +50,8 @@ class GolestanGradeGrabber:
                         previousUserLessens = list(self.Configs.getDB()["lessens"].find({"username": eUser['username'], "chatId": eGroup["chatId"]}))
                         diffs = self.compereScores(previousUserLessens, data['data'], eUser['username'], eGroup["chatId"])
                         if len(diffs) > 0:
+                            print("--------- new scores ----------")
+                            print(diffs)
                             self.TelBot.sendNewScores(eGroup["chatId"], diffs)
 
                 except Exception as e:

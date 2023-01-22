@@ -184,7 +184,9 @@ class Golestan:
                 termAverage /= float(score['courseCredit']) + 1
 
         termAverage = str(round(termAverage, 2))
-        scores[0]["termAverage"] = termAverage
+        for i in range(len(scores)):
+            scores[i]["termAverage"] = termAverage
+
         print(scores)
 
         return scores

@@ -99,8 +99,8 @@ class TelegramBotGGG:
 
 
         test += "\n" + "معدل این ترمت تا اینجا: " + scoresArr[0]["termAverage"] + "\n"
-        test += "تعداد کل واحدای پاس شدت: " + scoresArr[0]["allCourseCreditPassed"] + "\n"
-        test += "معدل کلت: " + scoresArr[0]["averageAll"]
+        # test += "تعداد کل واحدای پاس شدت: " + scoresArr[0]["allCourseCreditPassed"] + "\n"
+        test += "معدل کلت(بدون این ترم): " + scoresArr[0]["averageAll"]
 
         self.TelBot.send_message(chatId, test)
 
