@@ -177,13 +177,14 @@ class Golestan:
             except:
                 pass
 
-        termAverage = 0
+        weighted_sum = 0
+        total_weight = 0
         for score in scores:
             if len(score['score']) > 0:
-                termAverage += float(score['courseCredit']) * float(score['score'])
-                termAverage /= float(score['courseCredit']) + 1
+                weighted_sum += float(score['courseCredit']) * float(score['score'])
+                total_weight += float(score['courseCredit'])
 
-        termAverage = str(round(termAverage, 2))
+        termAverage = str(round(weighted_sum / total_weight, 2))
         for i in range(len(scores)):
             scores[i]["termAverage"] = termAverage
 
